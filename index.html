@@ -2,9 +2,8 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black">
-<title>k1四字熟語</title>
+<title>四字熟語トレーニング</title>
+
 <style>
 body {
   font-family: sans-serif;
@@ -12,8 +11,6 @@ body {
   margin: 0 auto;
   padding: 20px;
   max-wedth: 700px;
-  touch-action: manipulation;
-  overflow: hidden;
 }
 
 /* -------------------
@@ -103,9 +100,9 @@ body {
 }
 
 button {
+  padding: 12px 20px;
   margin: 10px 5px;
-  font-size: 30px;
-  touch-action: manipulation;
+  font-size: 18px;
 }
 
 #answer {
@@ -163,57 +160,46 @@ body {
 
 #canvasArea button {
   position: absolute;
+  padding: 8px 12px;
+  font-size: 14px;
   border-radius: 0;
 }
 
 /* 正解 */
 #btnCorrect {
-  bottom: -100px;
+  bottom: -50px;
   left: 22%;
   transform: translateX(-50%);
-  
-  width: 150px;
-  padding: 20px 0;
-  text-align: center;
-  position: absolute;
 }
 
 /* 不正解 */
 #btnWrong {
-  bottom: -100px;
+  bottom: -50px;
   left: 77%;
-  transform: translateX(-50%); 
-  
-  width: 150px;
-  padding: 20px 0;
-  text-align: center;
-  position: absolute;
+  transform: translateX(-50%);
 }
 
 /* 消す */
 #btnClear {
-  bottom: 110px;
-  left: -230px;
-  padding: 0 65px;
+  bottom: -10px;
+  left: -58px;
 }
 
 /* 一画戻す */
 #btnUndo {
-  bottom: 220px;
-  left: -230px;
-  padding: 0 37px;
+  bottom: -10px;
+  right: -85px;
 }
 
 /* 答え */
 #btnAnswer {
-  bottom: 140px;
-  right: -230px;
-  padding: 30px 20px;
+  top: -10px;
+  right: -100px;
 }
 
 /* 中断（左下ちょい内側） */
 #btnExit {
-  bottom: -90px;
+  bottom: -10px;
   left: -200px;
 }
 </style>
@@ -226,11 +212,11 @@ body {
 
 <div id="menu">
 
-  <h2>漢検一級四字熟語書き取り</h2>
+  <h2>四字熟語トレーニング</h2>
   <h3>ユニット選択</h3>
 
   <div id="unitList"></div>
-<button onclick="openConfirm()">完全リセット</button>
+
 </div>
 
 
@@ -250,8 +236,10 @@ body {
 
   <button id="btnAnswer" onclick="showAnswer()">答えを見る</button>
 
-  <button id="btnCorrect" onclick="markCorrect()">正解</button>
-  <button id="btnWrong" onclick="markWrong()">不正解</button>
+  <button id="btnCorrect" onclick="markCorrect()">○ 正解</button>
+  <button id="btnWrong" onclick="markWrong()">× 間違えた</button>
+
+  <button id="removeBtn" onclick="removeFromMistake()">復習から外す</button>
 
   <button id="btnClear" onclick="clearCanvas()">消す</button>
   <button id="btnUndo" onclick="undoCanvas()">一画戻す</button>
@@ -279,10 +267,9 @@ body {
   </button>
 </div>
 
-<script src="dataA.js"></script>
+<script src="data.js"></script>
 
 <script>
-
 /*
 ====================================
 状態管理
@@ -292,7 +279,7 @@ body {
 let currentUnit = 0;
 let index = 0;
 let unit = [];
-let shuffledChoices = [];
+
 let currentScore = 0; // 今回の点数
 
 /*
@@ -428,26 +415,15 @@ btn.innerHTML = `
 
 function startUnit(unitNumber) {
   currentUnit = unitNumber;
-
-  // 問題シャッフル
-  unit = [...units[currentUnit]].sort(() => Math.random() - 0.5);
-
-  // 👇 choicesを1回だけ作る
-  shuffledChoices = unit.map(x =>
-    x.hide === "front"
-      ? x.frontYomi
-      : x.backYomi
-  );
-
-  // 👇 1回だけシャッフル
-  shuffledChoices.sort(() => Math.random() - 0.5);
+  unit = units[currentUnit];
 
   index = 0;
   currentScore = 0;
 
   document.getElementById("menu").style.display = "none";
   document.getElementById("game").style.display = "block";
-  document.getElementById("tabBar").style.display = "none";
+
+document.getElementById("tabBar").style.display = "none";
 
   clearCanvas();
   showQuestion();
@@ -459,14 +435,6 @@ function startMistakeUnit(unitNumber) {
   currentUnit =
     "復習 " + (unitNumber + 1);
 
-shuffledChoices = unit.map(x =>
-    x.hide === "front"
-      ? x.frontYomi
-      : x.backYomi
-
-  );
-
-  shuffledChoices.sort(() => Math.random() - 0.5);
   index = 0;
   currentScore = 0;
 
@@ -496,27 +464,54 @@ function showQuestion() {
   const w = unit[index];
 
   let displayText = "";
+  let choicesText = "";
 
   if (w.hide === "front") {
-    displayText = "□□" + w.kanji.slice(2, 4);
+    // 前半を隠す
+    displayText =
+      "□□" + w.kanji.slice(2, 4);
+
+    choicesText = w.frontYomi;
   }
 
   if (w.hide === "back") {
-    displayText = w.kanji.slice(0, 2) + "□□";
+    // 後半を隠す
+    displayText =
+      w.kanji.slice(0, 2) + "□□";
+
+    choicesText = w.backYomi;
   }
 
   document.getElementById("title").innerText =
-    typeof currentUnit === "number"
-      ? "四字熟語問題" + (currentUnit + 1)
-      : currentUnit;
+  typeof currentUnit === "number"
+    ? "四字熟語問題" + (currentUnit + 1)
+    : currentUnit;
 
-  document.getElementById("question").innerHTML = displayText;
+document.getElementById("question").innerHTML =
+  displayText;
 
-  // 👉 シャッフル済みをそのまま使う
+  /*
+  候補の読み
+  （本番は unit全体分でもOK）
+  */
   document.getElementById("choices").innerText =
-    shuffledChoices.join("　");
+    unit.map(x =>
+      x.hide === "front"
+        ? x.frontYomi
+        : x.backYomi
+    ).join("　");
 
   document.getElementById("answer").innerText = "";
+  
+  const btn = document.getElementById("removeBtn");
+
+if (typeof currentUnit === "number") {
+  // 通常ユニット → 非表示
+  btn.style.display = "none";
+} else {
+  // 復習ユニット → 表示
+  btn.style.display = "inline-block";
+}
 }
 /*
 ====================================
@@ -605,39 +600,31 @@ function markWrong() {
   nextQuestion();
 }
 
-function openConfirm() {
-  document.getElementById("confirmBox").style.display = "flex";
-}
+function removeFromMistake() {
 
-function closeConfirm() {
-  document.getElementById("confirmBox").style.display = "none";
-}
+  // 通常ユニットでは何もしない
+  if (typeof currentUnit === "number") return;
 
-function confirmReset() {
-  closeConfirm();
+  const unitIndex =
+    parseInt(currentUnit.replace("復習 ", "")) - 1;
 
-  // ここにリセット処理
-  localStorage.clear();
+  const currentList =
+    mistakeUnits[unitIndex];
 
-  scoreData = units.map(function () {
-    return {
-      score: null,
-      played: false
-    };
-  });
+  const w = unit[index];
 
-  mistakeUnits = [];
-  currentUnit = 0;
-  index = 0;
-  unit = [];
-  currentScore = 0;
+  // 該当問題を削除
+  const newList = currentList.filter(
+    x => x.kanji !== w.kanji
+  );
 
-  document.getElementById("tabBar").style.display = "flex";
-  document.getElementById("game").style.display = "none";
-  document.getElementById("mistake").style.display = "none";
-  document.getElementById("menu").style.display = "block";
+  mistakeUnits[unitIndex] = newList;
 
-  createUnitButtons();
+  saveData();
+
+  alert("この問題を復習から外しました");
+
+  nextQuestion();
 }
 
 /*
@@ -651,28 +638,27 @@ function nextQuestion() {
 
   index++;
 
+  /*
+  完走 → 保存
+  */
   if (index >= unit.length) {
 
-  // 👇追加（復習ユニットの場合）
-  if (typeof currentUnit !== "number") {
-    showReviewResult();
+    scoreData[currentUnit] = {
+      score: currentScore,
+      played: true
+    };
+
+    saveData();
+
+    createUnitButtons();
+
+    alert(
+      `ユニット終了！\n${currentScore}点`
+    );
+
+    backToMenu();
     return;
   }
-
-  // 👇通常ユニット
-  scoreData[currentUnit] = {
-    score: currentScore,
-    played: true
-  };
-
-  saveData();
-  createUnitButtons();
-
-  alert(`ユニット終了！\n${currentScore}点`);
-
-  backToMenu();
-  return;
-}
 
   showQuestion();
 }
@@ -719,51 +705,6 @@ function updateMistakeList() {
   }
 }
 
-function showReviewResult() {
-
-  document.getElementById("game").style.display = "none";
-  document.getElementById("reviewResult").style.display = "block";
-
-  const list = document.getElementById("reviewList");
-
-  const unitIndex =
-    parseInt(currentUnit.replace("復習 ", "")) - 1;
-
-  const currentList = mistakeUnits[unitIndex];
-
-  list.innerHTML = currentList.map((w, i) => `
-    <div>
-      <input type="checkbox" checked id="chk${i}">
-      ${w.kanji}（${w.frontYomi} ${w.backYomi}）
-    </div>
-  `).join("");
-}
-
-
-function applyReview() {
-
-  const unitIndex =
-    parseInt(currentUnit.replace("復習 ", "")) - 1;
-
-  const currentList = mistakeUnits[unitIndex];
-
-  const newList = currentList.filter((w, i) => {
-    return document.getElementById("chk" + i).checked;
-  });
-
-  mistakeUnits[unitIndex] = newList;
-
-  saveData();
-
-  alert("更新しました");
-
-// 復習画面消す
-document.getElementById("reviewResult").style.display = "none";
-
-// メニュー戻る
-backToMenu();
-}
-
 /*
 ====================================
 タブ切り替え
@@ -807,40 +748,30 @@ function showTab(tabName) {
 */
 
 function backToMenu() {
-
-  // 復習画面なら保存
-  if (document.getElementById("reviewResult").style.display === "block") {
-
-    const unitIndex =
-      parseInt(currentUnit.replace("復習 ", "")) - 1;
-
-    const currentList = mistakeUnits[unitIndex];
-
-    const newList = currentList.filter((w, i) => {
-      const chk = document.getElementById("chk" + i);
-      return chk && chk.checked;
-    });
-
-    mistakeUnits[unitIndex] = newList;
-
-    // 👇 ここが追加
-    mistakeUnits = mistakeUnits.filter(u => u.length > 0);
-
-    saveData();
-  }
-
-  document.getElementById("reviewResult").style.display = "none";
-
   document.getElementById("tabBar").style.display = "flex";
   showTab("menu");
 }
+
+/*
+====================================
+Canvas
+====================================
+*/
 
 let canvas;
 let ctx;
 let drawing = false;
 let lastX = 0;
 let lastY = 0;
+
+/*
+====================================
+Undo 用
+====================================
+*/
+
 let history = [];
+
 
 /*
 ====================================
@@ -946,6 +877,7 @@ function setupCanvas() {
   );
 }
 
+
 /*
 ====================================
 最初に実行
@@ -960,36 +892,6 @@ window.onload = function () {
 };
 
 </script>
-<div id="confirmBox" style="
-  display:none;
-  position:fixed;
-  top:0; left:0;
-  width:100%; height:100%;
-  background:rgba(0,0,0,0.5);
-  justify-content:center;
-  align-items:center;
-  z-index:9999;
-">
 
-  <div style="
-    background:white;
-    padding:20px;
-    border-radius:10px;
-    text-align:center;
-  ">
-    <p>本当にリセットする？</p>
-    <button onclick="confirmReset()">はい</button>
-    <button onclick="closeConfirm()">キャンセル</button>
-  </div>
-
-</div>
-<div id="reviewResult" style="display:none">
-
-  <h2>復習チェック</h2>
-
-  <div id="reviewList"></div>
-  <button onclick="backToMenu()">戻る</button>
-
-</div>
 </body>
 </html>
