@@ -1,3 +1,4 @@
+const APP_VERSION = "1.0";
 const units = [
 /*1*/
  [
