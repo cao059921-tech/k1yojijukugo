@@ -91,6 +91,58 @@ const units = [
   { kanji: "截断衆流", frontYomi: "せつだん", backYomi: "しゅる", hide: "back" },
   { kanji: "歓喜抃舞", frontYomi: "かんき", backYomi: "べんぶ", hide: "back" }
 ],
+/*8*/
+[
+  { kanji: "千荊万棘", frontYomi: "せんけい", backYomi: "ばんきょく", hide: "back" },
+  { kanji: "雨霖鈴曲", frontYomi: "うりん", backYomi: "れいきょく", hide: "front" },
+  { kanji: "天威咫尺", frontYomi: "てんい", backYomi: "しせき", hide: "back" },
+  { kanji: "折檻諫言", frontYomi: "せっかん", backYomi: "かんげん", hide: "back" },
+  { kanji: "彫心鏤骨", frontYomi: "ちょうしん", backYomi: "るこつ", hide: "front" },
+  { kanji: "和羹塩梅", frontYomi: "わこう", backYomi: "あんばい", hide: "back" },
+  { kanji: "迂疎空闊", frontYomi: "うそ", backYomi: "くうかつ", hide: "back" },
+  { kanji: "呉牛喘月", frontYomi: "ごぎゅう", backYomi: "ぜんげつ", hide: "front" },
+  { kanji: "貪夫徇財", frontYomi: "たんぷ", backYomi: "じゅんざい", hide: "back" },
+  { kanji: "敝衣蓬髪", frontYomi: "へいい", backYomi: "ほうはつ", hide: "back" }
+  ],
+  /*9*/
+[
+  { kanji: "封豕長蛇", frontYomi: "ほうし", backYomi: "ちょうだ", hide: "front" },
+  { kanji: "和気藹藹", frontYomi: "わき", backYomi: "あいあい", hide: "front" },
+  { kanji: "瓊枝玉葉", frontYomi: "けいし", backYomi: "ぎょくよう", hide: "back" },
+  { kanji: "眼光炯炯", frontYomi: "がんこう", backYomi: "けいけい", hide: "front" },
+  { kanji: "風光明媚", frontYomi: "ふうこう", backYomi: "めいび", hide: "back" },
+  { kanji: "断爛朝報", frontYomi: "だんらん", backYomi: "ちょうほう", hide: "back" },
+  { kanji: "蓋瓦級甎", frontYomi: "がいが", backYomi: "きゅうせん", hide: "front" },
+  { kanji: "戎馬倥偬", frontYomi: "じゅうば", backYomi: "こうそう", hide: "back" },
+  { kanji: "妻子眷族", frontYomi: "さいし", backYomi: "けんぞく", hide: "back" },
+  { kanji: "被髪佯狂", frontYomi: "ひはつ", backYomi: "ようきょう", hide: "front" }
+  ],
+  /*10*/
+[
+  { kanji: "放蕩不羈", frontYomi: "ほうとう", backYomi: "ふき", hide: "back" },
+  { kanji: "跌蕩放言", frontYomi: "てっとう", backYomi: "ほうげん", hide: "front" },
+  { kanji: "瓶墜簪折", frontYomi: "へいつい", backYomi: "しんせつ", hide: "back" },
+  { kanji: "鶴立企佇", frontYomi: "かくりつ", backYomi: "きちょ", hide: "back" },
+  { kanji: "倍日幷行", frontYomi: "ばいじつ", backYomi: "へいこう", hide: "front" },
+  { kanji: "舐糠及米", frontYomi: "しこう", backYomi: "きゅうまい", hide: "back" },
+  { kanji: "広廈万間", frontYomi: "こうか", backYomi: "ばんげん", hide: "back" },
+  { kanji: "兢兢業業", frontYomi: "きょうきょう", backYomi: "ぎょうぎょう", hide: "back" },
+  { kanji: "窃玉偸香", frontYomi: "せつぎょく", backYomi: "とうこう", hide: "back" },
+  { kanji: "冢中枯骨", frontYomi: "ちょうちゅう", backYomi: "ここつ", hide: "front" }
+  ],
+  /*11*/
+[
+  { kanji: "史籒大篆", frontYomi: "しちゅう", backYomi: "だいてん", hide: "back" },
+  { kanji: "杯盤狼藉", frontYomi: "はいばん", backYomi: "ろうぜき", hide: "back" },
+  { kanji: "星火燎原", frontYomi: "せいか", backYomi: "りょうげん", hide: "front" },
+  { kanji: "才気煥発", frontYomi: "さいき", backYomi: "かんぱつ", hide: "back" },
+  { kanji: "雲容烟態", frontYomi: "うんよう", backYomi: "えんたい", hide: "back" },
+  { kanji: "晨星落落", frontYomi: "しんせい", backYomi: "らくらく", hide: "back" },
+  { kanji: "人心洶洶", frontYomi: "じんしん", backYomi: "きょうきょう", hide: "front" },
+  { kanji: "零絹尺楮", frontYomi: "れいけん", backYomi: "せきちょ", hide: "back" },
+  { kanji: "一瀉千里", frontYomi: "いっしゃ", backYomi: "せんり", hide: "front" },
+  { kanji: "魑魅魍魎", frontYomi: "ちみ", backYomi: "もうりょう", hide: "back" }
+],
 /*12*/
 [
   { kanji: "北轍南轅", frontYomi: "ほくてつ", backYomi: "なんえん", hide: "back" },
