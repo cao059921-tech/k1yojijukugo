@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-<div id="version">ver 1.1</div>
 <meta charset="UTF-8">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black">
@@ -59,7 +58,7 @@ body {
   text-align: center;
   margin: 0 auto;
   padding: 20px;
-  max-wedth: 700px;
+  max-width: 700px;
   touch-action: manipulation;
   overflow-y: auto;
 }
@@ -119,7 +118,7 @@ body {
 #question {
   height: 100px;
   display: flex;
-  frex-direction: column;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   font-size: 48px;      
@@ -277,7 +276,10 @@ body {
 </style>
 </head>
 <body>
+<div id="version">ver 1.1</div>
 <div id="rotateMsg">縦向きで使ってください</div>
+<div id="app">
+</div>
 <!-- =====================
      ユニット一覧画面
 ===================== -->
@@ -1014,18 +1016,21 @@ window.onload = function () {
   setupCanvas();
   showTab("menu");
   
+  resizeCanvas();
+  
   document.getElementById("version").innerText =
   "ver " + APP_VERSION;
 };
 
 function resizeCanvas() {
   const canvas = document.getElementById("canvas");
-  canvas.width = canvas.offsetWidth;
-  canvas.height = canvas.offsetHeight;
-}
 
-window.addEventListener("load", resizeCanvas);
-window.addEventListener("resize", resizeCanvas);
+  // 親の幅を基準にする
+  const rect = canvas.getBoundingClientRect();
+
+  canvas.width = rect.width;
+  canvas.height = rect.height;
+}
 </script>
 <div id="confirmBox" style="
   display:none;
